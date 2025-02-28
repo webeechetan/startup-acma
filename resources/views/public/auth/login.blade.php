@@ -1,4 +1,4 @@
-@extends('admin.layouts.auth')
+@extends('public.layouts.auth')
 
 @section('meta_title', 'Login | Admin Panel')
 @section('meta_description', 'Login')
@@ -14,11 +14,16 @@
                         </a>
                         <h1>Sign In</h1>
 
-                        <form id="formAuthentication" action="/admin/dashboard" class="d-grid gap-4">
+                        <form id="formAuthentication" method="POST" action="{{ route('login.process') }}"
+                            class="d-grid gap-4">
+                            @csrf
                             <div>
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email-username"
+                                <input type="text" class="form-control" id="email" name="email"
                                     placeholder="Enter your email" autofocus="">
+                                @error('email')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div class="form-password-toggle">
                                 <label class="form-label" for="password">Password</label>
@@ -28,6 +33,9 @@
                                     <span class="input-group-text cursor-pointer"><i
                                             class="icon-base bx bx-hide"></i></span>
                                 </div>
+                                @error('password')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                             </div>
                             <div>
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>

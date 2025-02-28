@@ -9,16 +9,11 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return view('admin.dashboard');
+        return view('admin.dashboard.admin');
     }
 
     public function users()
     {
-        return view('admin.users.list');
-    }
-
-    public function signin()
-    {
-        return view('admin.auth.signin');
+        return view('admin.users');
     }
 }
