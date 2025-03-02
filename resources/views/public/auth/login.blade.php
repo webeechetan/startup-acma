@@ -9,10 +9,10 @@
             <div class="authentication-inner">
                 <div class="card p-4">
                     <div class="card-body d-grid gap-4">
-                        <a href="/" class="h-px-50">
+                        <a href="/" class="h-px-40">
                             <img src="/logo.png" alt="App Logo" class="h-100">
                         </a>
-                        <h1>Sign In</h1>
+                        <h1>Log In</h1>
 
                         <form id="formAuthentication" method="POST" action="{{ route('login.process') }}"
                             class="d-grid gap-4">
@@ -20,7 +20,7 @@
                             <div>
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email" autofocus="">
+                                    placeholder="Enter your email" autofocus required>
                                 @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -29,7 +29,7 @@
                                 <label class="form-label" for="password">Password</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="············" aria-describedby="password">
+                                        placeholder="············" required aria-describedby="password">
                                     <span class="input-group-text cursor-pointer"><i
                                             class="icon-base bx bx-hide"></i></span>
                                 </div>

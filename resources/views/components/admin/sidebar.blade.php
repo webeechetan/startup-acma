@@ -11,7 +11,7 @@
 
     <div class="menu-inner-shadow"></div>
 
-    <menu class="menu-inner py-1">
+    <menu class="menu-inner py-3">
         <li class="menu-item active">
             <a href="/admin/dashboard" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
