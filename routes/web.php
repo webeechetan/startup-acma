@@ -1,15 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\SeasonController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PilotController;
 use App\Http\Controllers\Admin\StartupController;
-
-use App\Http\Middleware\AdminMiddleware;
-use App\Http\Middleware\PilotMiddleware;
-use App\Http\Middleware\StartupMiddleware;
 use App\Http\Middleware\RedirectIfAuthenticated;
+
 
 // Auth Routes
 Route::prefix('auth')->group(function () {
@@ -21,16 +19,8 @@ Route::prefix('auth')->group(function () {
 });
 
 // Admin Routes
-Route::prefix('admin')->middleware(AdminMiddleware::class)->group(function () {
+Route::prefix('admin')->middleware('userType:admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::resources(['seasons' => SeasonController::class]);
 });
 
-// Pilot Routes
-Route::prefix('pilot')->middleware(PilotMiddleware::class)->group(function () {
-    Route::get('/dashboard', [PilotController::class, 'dashboard'])->name('pilot.dashboard');
-});
-
-// Startup Routes
-Route::prefix('startup')->middleware(StartupMiddleware::class)->group(function () {
-    Route::get('/dashboard', [StartupController::class, 'dashboard'])->name('startup.dashboard');
-});

@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
+use App\Services\AuthService;
 
 class AuthController extends Controller
 {
+    protected $authService;
+
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
     public function login()
     {
         return view('public.auth.login');
@@ -20,21 +26,19 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
-        if (Auth::attempt($credentials)) {
-            switch (Auth::user()->type) {
-                case 'admin':
-                    return redirect()->route('admin.dashboard');
-                case 'pilot':
-                    return redirect()->route('pilot.dashboard');
-                case 'startup':
-                    return redirect()->route('startup.dashboard');
-                default:
-                    Auth::logout();
-                    return redirect()->route('login')->withErrors(['error' => 'Unauthorized user type.']);
-            }
+
+        $result = $this->authService->login($credentials);
+
+        if (!$result['success']) {
+            return back()->with('error', 'Error logging in.');
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        return match (Auth::user()->type) {
+            'admin' => redirect()->route('admin.dashboard'),
+            'pilot' => redirect()->route('pilot.dashboard'),
+            'startup' => redirect()->route('startup.dashboard'),
+            default => redirect()->route('login')->with('error', 'Unauthorized user type.'),
+        };
     }
 
     public function register()
@@ -44,28 +48,27 @@ class AuthController extends Controller
 
     public function registerProcess(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'type' => 'startup',
-        ]);
+        $validatedData['type'] = 'startup';
 
-        Auth::login($user);
+        $result = $this->authService->register($validatedData);
+
+        if (!$result['success']) {
+            return back()->withErrors(['email' => $result['message']]);
+        }
+
+        Auth::login($result['data']['user']);
         return redirect()->route('startup.dashboard');
     }
 
-
     public function logout(Request $request)
     {
-        Auth::logout();
+        $this->authService->logout($request);
         return redirect()->route('login');
     }
 }
-
