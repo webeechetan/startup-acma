@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.startup')
 
 @section('meta_title', 'Dashboard | Startup Panel')
 @section('meta_description', 'Dashboard')

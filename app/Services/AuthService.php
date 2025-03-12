@@ -29,7 +29,7 @@ class AuthService
             Log::error('User registration failed: ' . $e->getMessage());
             return [
                 'success' => false,
-                'message' => 'User registration failed',
+                'message' => 'User registration failed.',
             ];
         }
     }
@@ -39,7 +39,7 @@ class AuthService
         if (!Auth::attempt($credentials)) {
             return [
                 'success' => false,
-                'message' => 'Invalid credentials',
+                'message' => 'Invalid credentials.',
             ];
         }
 

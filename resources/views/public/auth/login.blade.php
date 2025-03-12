@@ -19,27 +19,32 @@
                             @csrf
                             <div>
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email" autofocus required>
+                                <input type="text" class="form-control @error('email') is-invalid @enderror"
+                                    id="email" name="email" placeholder="Enter your email" value="{{ old('email') }}"
+                                    autofocus>
                                 @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger d-block mt-1">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="form-password-toggle">
                                 <label class="form-label" for="password">Password</label>
                                 <div class="input-group input-group-merge">
-                                    <input type="password" id="password" class="form-control" name="password"
-                                        placeholder="············" required aria-describedby="password">
+                                    <input type="password" id="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        placeholder="············" aria-describedby="password">
                                     <span class="input-group-text cursor-pointer"><i
                                             class="icon-base bx bx-hide"></i></span>
                                 </div>
                                 @error('password')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger d-block mt-1">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div>
-                                <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                                <button class="btn btn-primary w-100" type="submit">Login</button>
                             </div>
+                            @if (session('error'))
+                                <div><span class="text-danger d-block mt-1">{{ session(key: 'error') }}</span></div>
+                            @endif
                         </form>
                     </div>
                 </div>

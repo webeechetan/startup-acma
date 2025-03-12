@@ -30,14 +30,15 @@ class AuthController extends Controller
         $result = $this->authService->login($credentials);
 
         if (!$result['success']) {
-            return back()->with('error', 'Error logging in.');
+            return back()->with('error', $result['message']);
         }
 
         return match (Auth::user()->type) {
             'admin' => redirect()->route('admin.dashboard'),
             'pilot' => redirect()->route('pilot.dashboard'),
             'startup' => redirect()->route('startup.dashboard'),
-            default => redirect()->route('login')->with('error', 'Unauthorized user type.'),
+            default => redirect()->route('login')->with('error', 'Access denied. Your account type is not authorized.'),
+
         };
     }
 
@@ -59,7 +60,7 @@ class AuthController extends Controller
         $result = $this->authService->register($validatedData);
 
         if (!$result['success']) {
-            return back()->withErrors(['email' => $result['message']]);
+            return back()->with('error', $result['message']);
         }
 
         Auth::login($result['data']['user']);

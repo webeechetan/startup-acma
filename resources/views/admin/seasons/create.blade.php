@@ -6,14 +6,18 @@
 @section('admin.content')
 
     <div class="card">
-        <h2 class="card-header">Add Season</h2>
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="mb-0">Add Season</h2>
+            <a href="{{ route('seasons.index') }}" class="btn btn-primary btn-sm">View All Seasons</a>
+        </div>
+
         <div class="card-body">
             <form id="formSeason" method="POST" action="{{ route('seasons.store') }}">
                 @csrf
                 <div class="mb-4">
                     <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Season 1"
-                        value="{{ old('name') }}" required>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter Season Name"
+                        value="{{ old('name') }}" autofocus required>
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

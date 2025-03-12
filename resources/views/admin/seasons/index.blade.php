@@ -9,8 +9,9 @@
             <h2 class="mb-0">All Seasons</h2>
             <a href="{{ route('seasons.create') }}" class="btn btn-primary btn-sm">Add Season</a>
         </div>
+
         <div class="table-responsive text-nowrap card-body">
-            <x-admin.datatable id="datatable-seasons" :columns="['Season Name', 'Start Date', 'End Date', 'Status', 'Actions']" :config="[
+            <x-admin.datatable id="datatable-seasons" :columns="['Name', 'Start Date', 'End Date', 'Status', 'Actions']" :config="[
                 'columnDefs' => [
                     ['orderable' => false, 'targets' => [-1]],
                     ['searchable' => false, 'targets' => [1, 2, 3, 4]],

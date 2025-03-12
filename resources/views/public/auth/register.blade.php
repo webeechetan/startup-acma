@@ -21,7 +21,7 @@
                             <div>
                                 <label for="name" class="form-label">Full Name</label>
                                 <input type="text" class="form-control" id="name" name="name"
-                                    placeholder="Enter your full name" autofocus required>
+                                    placeholder="Enter your full name" value="{{ old('name') }}" autofocus required>
                                 @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -30,7 +30,7 @@
                             <div>
                                 <label for="email" class="form-label">Email</label>
                                 <input type="text" class="form-control" id="email" name="email"
-                                    placeholder="Enter your email" required>
+                                    placeholder="Enter your email" value="{{ old('email') }}" required>
                                 @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -64,8 +64,8 @@
                             </div>
 
                             <div class="form-check mb-0">
-                                <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" checked
-                                    required>
+                                <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms"
+                                    {{ old('terms') ? 'checked' : '' }} required>
                                 <label class="form-check-label" for="terms-conditions">
                                     By registering, you agree to our
                                     <a href="/privacy-policy" class="fw-bold">Privacy Policy</a> &amp;
@@ -74,8 +74,7 @@
                             </div>
 
                             <div>
-                                <button class="btn btn-primary d-grid w-100" type="submit"
-                                    id="register-btn">Register</button>
+                                <button class="btn btn-primary w-100" type="submit" id="register-btn">Register</button>
                             </div>
                         </form>
                     </div>

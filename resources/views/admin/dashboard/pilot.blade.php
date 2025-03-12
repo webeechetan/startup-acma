@@ -1,4 +1,4 @@
-@extends('admin.layouts.admin')
+@extends('admin.layouts.pilot')
 
 @section('meta_title', 'Dashboard | Pilot Panel')
 @section('meta_description', 'Dashboard')
