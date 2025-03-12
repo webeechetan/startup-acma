@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Pilot;
 
 class Category extends Model
 {
@@ -11,8 +12,8 @@ class Category extends Model
 
     protected $fillable = ['name', 'type'];
 
-    public static function getAllowedTypes(): array
+    public function pilots()
     {
-        return ['pilot', 'startup'];
+        return $this->belongsToMany(Pilot::class);
     }
 }

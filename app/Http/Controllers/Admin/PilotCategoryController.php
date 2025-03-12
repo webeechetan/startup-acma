@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Pilot;
 use Illuminate\Http\Request;
 
 class PilotCategoryController extends Controller
@@ -22,7 +23,8 @@ class PilotCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.pilots.categories.create');
+        $pilots = Pilot::pluck('name', 'id');
+        return view('admin.pilots.categories.create', compact('pilots'));
     }
 
     /**
@@ -30,20 +32,21 @@ class PilotCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        // dd($request);
+        $validatedData = $request->validate([
             'name' => 'required|string|unique:categories,name',
+            'pilot_id' => 'required|array',
+            'pilot_id.*' => 'exists:pilots,id',
         ]);
 
-        $type = 'pilot';
-        if (!in_array($type, Category::getAllowedTypes())) {
-            return back()->with('error', 'Invalid category type.');
-        }
-
         try {
-            Category::create([
-                'name' => $request->name,
-                'type' => $type,
+            $category = Category::create([
+                'name' => $validatedData['name'],
+                'type' => 'pilot',
             ]);
+
+            // Attach pilots to category
+            $category->pilots()->attach($validatedData['pilot_id']);
 
             return redirect()->route('pilots.categories.index')->with('success', 'Category added successfully.');
         } catch (\Exception $e) {
@@ -64,7 +67,10 @@ class PilotCategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('admin.pilots.categories.edit', compact('category'));
+        $pilots = Pilot::pluck('name', 'id');
+        $selectedPilots = $category->pilots()->pluck('pilots.id')->toArray();
+
+        return view('admin.pilots.categories.edit', compact('category', 'pilots', 'selectedPilots'));
     }
 
     /**
@@ -72,20 +78,26 @@ class PilotCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|unique:categories,name,' . $category->id,
+            'pilot_id' => 'required|array',
+            'pilot_id.*' => 'exists:pilots,id',
         ]);
 
         try {
             $category->update([
-                'name' => $request->name,
+                'name' => $validatedData['name'],
             ]);
+
+            // Sync pilots to category (updates pivot table)
+            $category->pilots()->sync($validatedData['pilot_id']);
 
             return redirect()->route('pilots.categories.index')->with('success', 'Category updated successfully.');
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to update category.');
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

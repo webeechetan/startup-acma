@@ -10,10 +10,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('category_pilot', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->enum('type', ['uncategorised', 'pilot', 'startup'])->default('uncategorised');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('pilot_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('category_pilot');
     }
 };
