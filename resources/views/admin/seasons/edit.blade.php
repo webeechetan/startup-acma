@@ -49,7 +49,7 @@
                     <label class="form-check-label" for="is_active">Set as Active</label>
                 </div>
 
-                <button class="btn btn-primary" type="submit">Update Season</button>
+                <button class="btn btn-primary" type="submit">Update</button>
             </form>
 
             <div class="mt-4">

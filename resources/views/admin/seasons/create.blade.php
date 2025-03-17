@@ -41,7 +41,7 @@
                     @enderror
                 </div>
 
-                <button class="btn btn-primary" type="submit">Add Season</button>
+                <button class="btn btn-primary" type="submit">Save</button>
             </form>
             <div class="mt-4">
                 <small class="text-muted">Note: All <span class="text-danger">*</span> fields are required.</small>

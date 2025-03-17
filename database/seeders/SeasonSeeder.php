@@ -13,6 +13,6 @@ class SeasonSeeder extends Seeder
      */
     public function run(): void
     {
-        Season::factory()->count(20)->create();
+        Season::factory()->count(3)->create();
     }
 }
