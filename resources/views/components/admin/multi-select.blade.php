@@ -13,7 +13,7 @@
 <select id="{{ $id }}" name="{{ $name }}{{ $multiple ? '[]' : '' }}" {{ $multiple ? 'multiple' : '' }}
     class="{{ $class }}" {{ $required ? 'required' : '' }}>
 
-    @if ($selectAll)
+    @if ($selectAll && count($options) > 0)
         <option value="select_all">Select All</option>
     @endif
 

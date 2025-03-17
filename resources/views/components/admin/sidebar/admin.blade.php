@@ -47,17 +47,6 @@
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/pilots/categories" class="menu-link">
-                        <div data-i18n="Without navbar">View All Categories</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="/admin/pilots/categories/create" class="menu-link">
-                        <div data-i18n="Without menu">Add Category</div>
-                    </a>
-                </li>
-                <hr class="mx-4">
-                <li class="menu-item">
                     <a href="/admin/pilots" class="menu-link">
                         <div data-i18n="Without navbar">View All Companies</div>
                     </a>
@@ -67,7 +56,9 @@
                         <div data-i18n="Without menu">Add Company</div>
                     </a>
                 </li>
+
                 <hr class="mx-4">
+
                 <li class="menu-item">
                     <a href="/admin/pilots/users" class="menu-link">
                         <div data-i18n="Without navbar">View All Users</div>
@@ -76,6 +67,19 @@
                 <li class="menu-item">
                     <a href="/admin/pilots/users/create" class="menu-link">
                         <div data-i18n="Without menu">Add User</div>
+                    </a>
+                </li>
+                
+                <hr class="mx-4">
+
+                <li class="menu-item">
+                    <a href="/admin/pilots/categories" class="menu-link">
+                        <div data-i18n="Without navbar">View All Categories</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/admin/pilots/categories/create" class="menu-link">
+                        <div data-i18n="Without menu">Add Category</div>
                     </a>
                 </li>
             </menu>
