@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Season;
 
 class Pilot extends Model
 {
@@ -23,5 +24,10 @@ class Pilot extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+    
+    public function seasons()
+    {
+        return $this->belongsToMany(Season::class);
     }
 }

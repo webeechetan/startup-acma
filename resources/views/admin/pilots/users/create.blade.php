@@ -15,9 +15,9 @@
             <form id="formUser" method="POST" action="{{ route('pilots.users.store') }}">
                 @csrf
                 <div class="mb-4">
-                    <label for="pilot_id" class="form-label">Pilot Company <span class="text-danger">*</span></label>
+                    <label for="pilot_id" class="form-label">Company <span class="text-danger">*</span></label>
                     <select class="form-select" id="pilot_id" name="pilot_id" autofocus required>
-                        <option value="" disabled selected>Select Pilot Company</option>
+                        <option value="" disabled selected>Select Company</option>
                         @foreach ($pilots as $pilot)
                             <option value="{{ $pilot->id }}" {{ old('pilot_id') == $pilot->id ? 'selected' : '' }}>
                                 {{ $pilot->name }}
@@ -66,7 +66,7 @@
                     @enderror
                 </div>
 
-                <button class="btn btn-primary" type="submit">Add User</button>
+                <button class="btn btn-primary" type="submit">Save</button>
             </form>
 
             <div class="mt-4">

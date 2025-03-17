@@ -12,14 +12,30 @@
         </div>
 
         <div class="card-body">
-            <form id="formEditUser" method="POST" action="{{ route('pilots.users.update', $user->id) }}">
+            <form method="POST" action="{{ route('pilots.users.update', $user->id) }}">
                 @csrf
                 @method('PUT')
 
                 <div class="mb-4">
+                    <label for="pilot_id" class="form-label">Company <span class="text-danger">*</span></label>
+                    <select class="form-select" id="pilot_id" name="pilot_id" autofocus required>
+                        <option value="" disabled>Select Company</option>
+                        @foreach ($pilots as $pilot)
+                            <option value="{{ $pilot->id }}"
+                                {{ old('pilot_id', $selectedPilot) == $pilot->id ? 'selected' : '' }}>
+                                {{ $pilot->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('pilot_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
                     <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name"
-                        value="{{ old('name', $user->name) }}" autofocus required>
+                        value="{{ old('name', $user->name) }}" required>
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -27,32 +43,20 @@
 
                 <div class="mb-4">
                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" name="email"
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"
                         value="{{ old('email', $user->email) }}" required>
                     @error('email')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="form-label">New Password (Optional)</label>
-                    <input type="password" class="form-control" id="password" name="password"
-                        placeholder="Enter new password">
-                    @error('password')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
+                <div class="mb-4 form-check">
+                    <input type="checkbox" class="form-check-input" id="is_active" name="is_active"
+                        {{ $user->is_active ? 'checked' : '' }}>
+                    <label class="form-check-label" for="is_active">Set as Active</label>
                 </div>
 
-                <div class="mb-4">
-                    <label for="confirm-password" class="form-label">Confirm New Password</label>
-                    <input type="password" class="form-control" id="confirm-password" name="password_confirmation"
-                        placeholder="Confirm new password">
-                    @error('password_confirmation')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <button class="btn btn-primary" type="submit">Update User</button>
+                <button class="btn btn-primary" type="submit">Update</button>
             </form>
 
             <div class="mt-4">

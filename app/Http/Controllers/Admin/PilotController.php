@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pilot;
+use App\Models\Season;
 use Illuminate\Http\Request;
 
 class PilotController extends Controller
@@ -22,7 +23,9 @@ class PilotController extends Controller
      */
     public function create()
     {
-        return view('admin.pilots.create');
+        $pilots_array = Pilot::pluck('name');
+        $pilots = $pilots_array->mapWithKeys(fn($name) => [$name => $name]);
+        return view('admin.pilots.create', compact('pilots'));
     }
 
     /**
@@ -31,19 +34,39 @@ class PilotController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:pilots,name',
+            'pilot_names' => 'required|array',
+            'pilot_names.*' => 'string',
         ]);
 
         try {
-            Pilot::create([
-                'name' => $request->name,
-            ]);
+            $activeSeason = Season::getActiveSeason();
 
-            return redirect()->route('pilots.index')->with('success', 'Pilot added successfully.');
+            if (!$activeSeason) {
+                return back()->with('error', 'No active season found.');
+            }
+
+            $pilotNames = array_map('trim', $request->pilot_names);
+
+            foreach ($pilotNames as $name) {
+                if (!empty($name)) {
+                    $pilot = Pilot::firstOrCreate(['name' => $name]);
+
+                    $pilot->seasons()->syncWithoutDetaching([$activeSeason->id]);
+
+                    $users = $pilot->users()->where('is_active', true)->pluck('id')->toArray();
+
+                    if (!empty($users)) {
+                        $activeSeason->users()->syncWithoutDetaching($users);
+                    }
+                }
+            }
+
+            return redirect()->route('pilots.index')->with('success', 'Companies added successfully.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to add pilot.');
+            return back()->with('error', 'Failed to add companies.');
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -87,7 +110,5 @@ class PilotController extends Controller
     public function destroy(Pilot $pilot)
     {
         //
-        // $pilot->delete();
-        // return redirect()->route('pilots.index')->with('success', 'Pilot deleted successfully.');
     }
 }

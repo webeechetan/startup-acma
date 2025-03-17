@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Season;
 use App\Models\User;
 use App\Models\Pilot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 
 class PilotUserController extends Controller
 {
@@ -34,7 +34,7 @@ class PilotUserController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
@@ -42,24 +42,24 @@ class PilotUserController extends Controller
         ]);
 
         try {
+            $activeSeason = Season::getActiveSeason();
+
+            if (!$activeSeason) {
+                return back()->with('error', 'No active season found.');
+            }
+
             $user = User::create([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'password' => Hash::make($validatedData['password']),
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
                 'type' => 'pilot',
             ]);
 
-            // DB::table('pilot_user')->insert([
-            //     'user_id' => $user->id,
-            //     'pilot_id' => $validatedData['pilot_id'],
-            //     'created_at' => now(),
-            //     'updated_at' => now(),
-            // ]);
+            $user->pilots()->sync([$request->pilot_id]);
 
-            $user->pilots()->sync($validatedData['pilot_id']);
+            $activeSeason->users()->syncWithoutDetaching([$user->id]);
 
             return redirect()->route('pilots.users.index')->with('success', 'User added successfully.');
-
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to add user.');
         }
@@ -78,7 +78,10 @@ class PilotUserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.pilots.users.edit', compact('user'));
+        $pilots = Pilot::all();
+        $selectedPilot = $user->pilots()->pluck('pilots.id')->first();
+
+        return view('admin.pilots.users.edit', compact('user', 'pilots', 'selectedPilot'));
     }
 
     /**
@@ -86,7 +89,26 @@ class PilotUserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'pilot_id' => 'required|exists:pilots,id',
+            'is_active' => 'nullable|string',
+        ]);
+
+        try {
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'is_active' => $request->has('is_active'),
+            ]);
+
+            $user->pilots()->sync([$request->pilot_id]);
+
+            return redirect()->route('pilots.users.index')->with('success', 'User updated successfully.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to update user.');
+        }
     }
 
     /**

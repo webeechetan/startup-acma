@@ -11,7 +11,7 @@
         </div>
 
         <div class="table-responsive text-nowrap card-body">
-            <x-admin.datatable id="datatable-users" :columns="['Name', 'Email', 'Actions']" :config="[
+            <x-admin.datatable id="datatable-users" :columns="['Name', 'Email', 'Status', 'Actions']" :config="[
                 'columnDefs' => [['orderable' => false, 'targets' => [-1]], ['searchable' => false, 'targets' => [-1]]],
             ]">
                 @foreach ($users as $user)
@@ -19,18 +19,14 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
+                            <span class="badge {{ $user->is_active ? 'bg-success' : 'bg-danger' }}">
+                                {{ $user->is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+                        <td>
                             <a href="{{ route('pilots.users.edit', $user->id) }}" class="btn btn-link btn-sm">
                                 <i class="bx bx-edit"></i>
                             </a>
-                            <form action="{{ route('pilots.users.destroy', $user->id) }}" method="POST" class="d-inline"
-                                id="deleteForm{{ $user->id }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="button" class="btn btn-link btn-sm"
-                                    onclick="confirmDelete('deleteForm{{ $user->id }}')">
-                                    <i class="bx bx-trash"></i>
-                                </button>
-                            </form>
                         </td>
                     </tr>
                 @endforeach

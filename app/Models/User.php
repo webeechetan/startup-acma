@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
+        'is_active',
     ];
 
     /**
@@ -46,13 +47,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
-
-    // public function pilot()
-    // {
-    //     return $this->belongsTo(Pilot::class);
-    // }
 
     public function pilots()
     {

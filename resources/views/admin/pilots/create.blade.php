@@ -15,10 +15,15 @@
             <form id="formPilot" method="POST" action="{{ route('pilots.store') }}">
                 @csrf
                 <div class="mb-4">
-                    <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="name" name="name"
-                        placeholder="Enter Company Name" value="{{ old('name') }}" autofocus required>
-                    @error('name')
+                    <label for="pilot-select" class="form-label">Company Name(s) <span
+                            class="text-danger">*</span></label>
+                    <x-admin.multi-select id="pilot-select" name="pilot_names" :options="$pilots" :config="[
+                        'placeholder' => 'Search for a company, select from the list, or type a new name and press Enter to add',
+                        'allowClear' => true,
+                        'tags' => true,
+                    ]"
+                        class="form-control w-100" :multiple="true" />
+                    @error('pilot_names')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
