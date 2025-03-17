@@ -21,6 +21,15 @@
                             <a href="{{ route('pilots.categories.edit', $category->id) }}" class="btn btn-link btn-sm">
                                 <i class="bx bx-edit"></i>
                             </a>
+                            <form action="{{ route('pilots.categories.destroy', $category->id) }}" method="POST"
+                                class="d-inline" id="deleteForm{{ $category->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" class="btn btn-link btn-sm"
+                                    onclick="confirmDelete('deleteForm{{ $category->id }}')">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach

@@ -32,8 +32,7 @@ class PilotCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|string|unique:categories,name',
             'pilot_id' => 'required|array',
             'pilot_id.*' => 'exists:pilots,id',
@@ -41,12 +40,11 @@ class PilotCategoryController extends Controller
 
         try {
             $category = Category::create([
-                'name' => $validatedData['name'],
+                'name' => $request->name,
                 'type' => 'pilot',
             ]);
 
-            // Attach pilots to category
-            $category->pilots()->attach($validatedData['pilot_id']);
+            $category->pilots()->sync($request->pilot_id);
 
             return redirect()->route('pilots.categories.index')->with('success', 'Category added successfully.');
         } catch (\Exception $e) {
@@ -78,7 +76,7 @@ class PilotCategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'name' => 'required|string|unique:categories,name,' . $category->id,
             'pilot_id' => 'required|array',
             'pilot_id.*' => 'exists:pilots,id',
@@ -86,11 +84,10 @@ class PilotCategoryController extends Controller
 
         try {
             $category->update([
-                'name' => $validatedData['name'],
+                'name' => $request->name,
             ]);
 
-            // Sync pilots to category (updates pivot table)
-            $category->pilots()->sync($validatedData['pilot_id']);
+            $category->pilots()->sync($request->pilot_id);
 
             return redirect()->route('pilots.categories.index')->with('success', 'Category updated successfully.');
         } catch (\Exception $e) {
@@ -104,6 +101,7 @@ class PilotCategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('pilots.categories.index')->with('success', 'Category deleted successfully.');
     }
 }

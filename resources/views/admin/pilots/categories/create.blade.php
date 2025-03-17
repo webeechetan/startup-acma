@@ -25,14 +25,18 @@
 
                 <div class="mb-4">
                     <label for="pilot-select" class="form-label">Companies <span class="text-danger">*</span></label>
-                    <x-admin.multi-select id="pilot-select" name="pilot_id" :options="$pilots" :config="['placeholder' => 'Select Companies', 'allowClear' => true, 'tags' => true]"
+                    <x-admin.multi-select id="pilot-select" name="pilot_id" :options="$pilots" :config="[
+                        'placeholder' => 'Type to Search or Select Companies',
+                        'allowClear' => true,
+                        'tags' => false,
+                    ]"
                         class="form-control w-100" :multiple="true" :required="true" />
                     @error('pilot_id')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <button class="btn btn-primary" type="submit">Add Category</button>
+                <button class="btn btn-primary" type="submit">Save</button>
             </form>
 
             <div class="mt-4">

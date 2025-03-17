@@ -34,7 +34,7 @@
                     @enderror
                 </div>
 
-                <button class="btn btn-primary" type="submit">Update Category</button>
+                <button class="btn btn-primary" type="submit">Update</button>
             </form>
 
             <div class="mt-4">
