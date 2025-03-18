@@ -27,8 +27,15 @@
 
                 <div class="mb-4">
                     <label for="pilot-select" class="form-label">Companies <span class="text-danger">*</span></label>
-                    <x-admin.multi-select id="pilot-select" name="pilot_id" :options="$pilots" :selected="$selectedPilots"
-                        :config="['placeholder' => 'Select Companies', 'allowClear' => true]" class="form-control w-100" :multiple="true" :required="true" />
+                    <x-admin.select id="pilot-select" name="pilot_id" :options="$pilots" :selected="$selectedPilots" :config="[
+                        'placeholder' => 'Select Companies',
+                        'allowClear' => true,
+                        'tags' => false,
+                        'multiple' => true,
+                        'selectAll' => true,
+                        'required' => true,
+                    ]"
+                        class="form-control w-100" />
                     @error('pilot_id')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

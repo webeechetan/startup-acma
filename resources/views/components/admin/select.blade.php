@@ -1,19 +1,10 @@
-@props([
-    'id',
-    'name',
-    'options' => [],
-    'selected' => [],
-    'config' => [],
-    'class' => 'w-100',
-    'multiple' => true,
-    'selectAll' => true,
-    'required' => false,
-])
+@props(['id', 'name', 'options' => [], 'selected' => [], 'config' => [], 'class' => ''])
 
-<select id="{{ $id }}" name="{{ $name }}{{ $multiple ? '[]' : '' }}" {{ $multiple ? 'multiple' : '' }}
-    class="{{ $class }}" {{ $required ? 'required' : '' }}>
+<select id="{{ $id }}" name="{{ $name }}{{ $config['multiple'] ?? false ? '[]' : '' }}"
+    class="{{ $class }}" {{ $config['multiple'] ?? false ? 'multiple' : '' }}
+    {{ $config['required'] ?? false ? 'required' : '' }}>
 
-    @if ($selectAll && count($options) > 0)
+    @if (($config['selectAll'] ?? false) && count($options) > 0)
         <option value="select_all">Select All</option>
     @endif
 
@@ -26,11 +17,6 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
-    <style>
-        .select2-container {
-            width: 100% !important;
-        }
-    </style>
 @endpush
 
 @push('scripts')
@@ -40,20 +26,24 @@
         $(document).ready(function() {
             let selectElement = $('#{{ $id }}');
 
-            // Initialize Select2
+            // Initialize Select2 with the provided config
             selectElement.select2(@json($config));
 
             // Handle "Select All" functionality
             selectElement.on('select2:select', function(e) {
-                let selectedValue = e.params.data.id;
-
-                if (selectedValue === "select_all") {
-                    // Select all options except "Select All"
+                if (e.params.data.id === "select_all") {
                     let allValues = selectElement.find('option[value!="select_all"]').map(function() {
                         return $(this).val();
                     }).get();
 
                     selectElement.val(allValues).trigger('change');
+                }
+            });
+
+            // Handle "Deselect All" when all options are selected
+            selectElement.on('select2:unselect', function(e) {
+                if (e.params.data.id === "select_all") {
+                    selectElement.val(null).trigger('change');
                 }
             });
         });

@@ -9,7 +9,15 @@
             <h2 class="mb-0">All Companies</h2>
             <a href="{{ route('pilots.create') }}" class="btn btn-primary btn-sm">Add Company</a>
         </div>
-        
+
+        <div class="p-4">
+            <x-admin.select id="season-select" name="season_id" :options="$seasons" :selected="$selectedSeason" :config="[
+                'placeholder' => 'Select Season',
+                'required' => true,
+            ]"
+                class="w-px-200" />
+        </div>
+
         <div class="table-responsive text-nowrap card-body">
             <x-admin.datatable id="datatable-pilots" :columns="['Name', 'Actions']" :config="[
                 'columnDefs' => [['orderable' => false, 'targets' => [-1]], ['searchable' => false, 'targets' => [-1]]],

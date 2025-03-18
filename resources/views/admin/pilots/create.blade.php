@@ -15,14 +15,17 @@
             <form id="formPilot" method="POST" action="{{ route('pilots.store') }}">
                 @csrf
                 <div class="mb-4">
-                    <label for="pilot-select" class="form-label">Company Name(s) <span
-                            class="text-danger">*</span></label>
-                    <x-admin.multi-select id="pilot-select" name="pilot_names" :options="$pilots" :config="[
-                        'placeholder' => 'Search for a company, select from the list, or type a new name and press Enter to add',
+                    <label for="pilot-select" class="form-label">Company Name(s) <span class="text-danger">*</span></label>
+                    <x-admin.select id="pilot-select" name="pilot_names" :options="$pilots" :config="[
+                        'placeholder' =>
+                            'Search for a company, select from the list, or type a new name and press Enter to add',
                         'allowClear' => true,
                         'tags' => true,
+                        'multiple' => true,
+                        'selectAll' => true,
+                        'required' => true,
                     ]"
-                        class="form-control w-100" :multiple="true" />
+                        class="form-control w-100" />
                     @error('pilot_names')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

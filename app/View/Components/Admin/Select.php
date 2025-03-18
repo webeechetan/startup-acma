@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class MultiSelect extends Component
+class Select extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class MultiSelect extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.multi-select');
+        return view('components.admin.select');
     }
 }
