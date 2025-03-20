@@ -14,7 +14,7 @@
         <div class="card-body">
             <form id="formPilot" method="POST" action="{{ route('pilots.store') }}">
                 @csrf
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="pilot-select" class="form-label">Company Name(s) <span class="text-danger">*</span></label>
                     <x-admin.select id="pilot-select" name="pilot_names" :options="$pilots" :config="[
                         'placeholder' =>
@@ -24,8 +24,7 @@
                         'multiple' => true,
                         'selectAll' => true,
                         'required' => true,
-                    ]"
-                        class="form-control w-100" />
+                    ]" />
                     @error('pilot_names')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

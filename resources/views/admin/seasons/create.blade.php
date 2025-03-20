@@ -14,7 +14,7 @@
         <div class="card-body">
             <form id="formSeason" method="POST" action="{{ route('seasons.store') }}">
                 @csrf
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Season Name"
                         value="{{ old('name') }}" autofocus required>
@@ -23,7 +23,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="start_date" class="form-label">Start Date <span class="text-danger">*</span></label>
                     <input type="date" class="form-control" id="start_date" name="start_date"
                         value="{{ old('start_date') }}" required>
@@ -32,7 +32,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="end_date" class="form-label">End Date <span class="text-danger">*</span></label>
                     <input type="date" class="form-control" id="end_date" name="end_date" value="{{ old('end_date') }}"
                         required>

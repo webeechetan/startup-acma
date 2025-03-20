@@ -16,7 +16,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name"
                         value="{{ old('name', $category->name) }}" required>
@@ -25,7 +25,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="pilot-select" class="form-label">Companies <span class="text-danger">*</span></label>
                     <x-admin.select id="pilot-select" name="pilot_id" :options="$pilots" :selected="$selectedPilots" :config="[
                         'placeholder' => 'Select Companies',

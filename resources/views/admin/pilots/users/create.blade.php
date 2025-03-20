@@ -14,7 +14,7 @@
         <div class="card-body">
             <form id="formUser" method="POST" action="{{ route('pilots.users.store') }}">
                 @csrf
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="pilot_id" class="form-label">Company <span class="text-danger">*</span></label>
                     <select class="form-select" id="pilot_id" name="pilot_id" autofocus required>
                         <option value="" disabled selected>Select Company</option>
@@ -29,7 +29,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name"
                         value="{{ old('name') }}" autofocus required>
@@ -38,29 +38,29 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email"
                         value="{{ old('email') }}" required>
                     @error('email')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password"
                         required>
                     @error('password')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="confirm-password" class="form-label">Confirm Password <span
                             class="text-danger">*</span></label>
                     <input type="password" class="form-control" id="confirm-password" name="password_confirmation"
-                        placeholder="Confirm password" required>
+                        placeholder="Confirm Password" required>
                     @error('password_confirmation')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

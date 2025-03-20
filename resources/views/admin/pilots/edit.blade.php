@@ -16,7 +16,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name"
                         placeholder="Enter Company Name" value="{{ old('name', $pilot->name) }}" autofocus required>

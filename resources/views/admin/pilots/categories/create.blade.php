@@ -14,7 +14,7 @@
         <div class="card-body">
             <form id="formPilotCategory" method="POST" action="{{ route('pilots.categories.store') }}">
                 @csrf
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="name" class="form-label">Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name"
                         placeholder="Enter Category Name" value="{{ old('name') }}" autofocus required>
@@ -23,7 +23,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="pilot-select" class="form-label">Companies <span class="text-danger">*</span></label>
                     <x-admin.select id="pilot-select" name="pilot_id" :options="$pilots" :config="[
                         'placeholder' => 'Type to Search or Select Companies',

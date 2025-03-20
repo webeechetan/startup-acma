@@ -16,7 +16,7 @@
                 @csrf
                 @method('PUT')
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="pilot_id" class="form-label">Company <span class="text-danger">*</span></label>
                     <select class="form-select" id="pilot_id" name="pilot_id" autofocus required>
                         <option value="" disabled>Select Company</option>
@@ -32,7 +32,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name"
                         value="{{ old('name', $user->name) }}" required>
@@ -41,7 +41,7 @@
                     @enderror
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 d-grid">
                     <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Enter email"
                         value="{{ old('email', $user->email) }}" required>
