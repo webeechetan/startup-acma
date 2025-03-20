@@ -12,10 +12,12 @@ class PilotController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pilots = Pilot::all();
-        return view('admin.pilots.index', compact('pilots'));
+        $selectedSeason = $request->get('season_id') ?? Season::getActiveSeason()?->id;
+        $season = Season::with('pilots')->find($selectedSeason);
+        $pilots = $season ? $season->pilots : collect();
+        return view('admin.pilots.index', data: compact('pilots', 'selectedSeason'));
     }
 
     /**

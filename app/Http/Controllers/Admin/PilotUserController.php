@@ -14,10 +14,12 @@ class PilotUserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::where('type', 'pilot')->get();
-        return view('admin.pilots.users.index', compact('users'));
+        $selectedSeason = $request->get('season_id') ?? Season::getActiveSeason()?->id;
+        $season = Season::with('users')->find($selectedSeason);
+        $users = $season ? $season->users->where('type', 'pilot') : User::where('type', 'pilot')->get();
+        return view('admin.pilots.users.index', compact('users', 'selectedSeason'));
     }
 
     /**

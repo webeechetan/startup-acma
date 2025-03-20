@@ -10,6 +10,10 @@
             <a href="{{ route('pilots.users.create') }}" class="btn btn-primary btn-sm">Add New User</a>
         </div>
 
+        <div class="p-4">
+            <x-admin.season-filter :selected-season="$selectedSeason" />
+        </div>
+
         <div class="table-responsive text-nowrap card-body">
             <x-admin.datatable id="datatable-users" :columns="['Name', 'Email', 'Status', 'Actions']" :config="[
                 'columnDefs' => [['orderable' => false, 'targets' => [-1]], ['searchable' => false, 'targets' => [-1]]],

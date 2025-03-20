@@ -1,8 +1,12 @@
-@props(['id', 'name', 'options' => [], 'selected' => [], 'config' => [], 'class' => ''])
+@props(['id', 'name', 'options' => [], 'selected' => [], 'config' => [], 'class' => 'font-control w-100'])
 
 <select id="{{ $id }}" name="{{ $name }}{{ $config['multiple'] ?? false ? '[]' : '' }}"
-    class="{{ $class }}" {{ $config['multiple'] ?? false ? 'multiple' : '' }}
+    class="{{ $class }} " {{ $config['multiple'] ?? false ? 'multiple' : '' }}
     {{ $config['required'] ?? false ? 'required' : '' }}>
+
+    @if (!($config['multiple'] ?? false) && !empty($config['placeholder']))
+        <option value=""></option>
+    @endif
 
     @if (($config['selectAll'] ?? false) && count($options) > 0)
         <option value="select_all">Select All</option>

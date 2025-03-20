@@ -11,12 +11,9 @@
         </div>
 
         <div class="p-4">
-            <x-admin.select id="season-select" name="season_id" :options="$seasons" :selected="$selectedSeason" :config="[
-                'placeholder' => 'Select Season',
-                'required' => true,
-            ]"
-                class="w-px-200" />
+            <x-admin.season-filter :selected-season="$selectedSeason" />
         </div>
+
 
         <div class="table-responsive text-nowrap card-body">
             <x-admin.datatable id="datatable-pilots" :columns="['Name', 'Actions']" :config="[

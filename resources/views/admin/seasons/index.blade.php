@@ -12,6 +12,7 @@
 
         <div class="table-responsive text-nowrap card-body">
             <x-admin.datatable id="datatable-seasons" :columns="['Name', 'Start Date', 'End Date', 'Status', 'Actions']" :config="[
+                'order' => [[3, 'asc']],
                 'columnDefs' => [
                     ['orderable' => false, 'targets' => [-1]],
                     ['searchable' => false, 'targets' => [1, 2, 3, 4]],
