@@ -1,20 +1,25 @@
-@props(['id', 'name', 'options' => [], 'selected' => [], 'config' => [], 'class' => 'font-control w-100'])
+@props(['id', 'name', 'options' => [], 'selected' => [], 'config' => [], 'class' => 'form-control w-100'])
 
 <select id="{{ $id }}" name="{{ $name }}{{ $config['multiple'] ?? false ? '[]' : '' }}"
-    class="{{ $class }} " {{ $config['multiple'] ?? false ? 'multiple' : '' }}
+    class="{{ $class }}" {{ $config['multiple'] ?? false ? 'multiple' : '' }}
     {{ $config['required'] ?? false ? 'required' : '' }}>
 
     @if (!($config['multiple'] ?? false) && !empty($config['placeholder']))
-        <option value=""></option>
+        <option value="">{{ $config['placeholder'] }}</option>
     @endif
 
     @if (($config['selectAll'] ?? false) && count($options) > 0)
         <option value="select_all">Select All</option>
     @endif
 
-    @foreach ($options as $value => $label)
-        <option value="{{ $value }}" @selected(in_array($value, (array) $selected))>
-            {{ $label }}
+    @foreach ($options as $key => $value)
+        @php
+            $optionValue = is_array($options) && array_is_list($options) ? $value : $key;
+            $optionLabel = $value;
+        @endphp
+
+        <option value="{{ $optionValue }}" @selected(in_array($optionValue, (array) $selected))>
+            {{ $optionLabel }}
         </option>
     @endforeach
 </select>
@@ -30,7 +35,7 @@
         $(document).ready(function() {
             let selectElement = $('#{{ $id }}');
 
-            // Initialize Select2 with the provided config
+            // Initialize Select2 with provided config
             selectElement.select2(@json($config));
 
             // Handle "Select All" functionality

@@ -25,8 +25,7 @@ class PilotController extends Controller
      */
     public function create()
     {
-        $pilots_array = Pilot::pluck('name');
-        $pilots = $pilots_array->mapWithKeys(fn($name) => [$name => $name]);
+        $pilots = Pilot::pluck('name');
         return view('admin.pilots.create', compact('pilots'));
     }
 
