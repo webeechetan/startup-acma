@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Pilot;
+use App\Models\Startup;
 
 class User extends Authenticatable
 {
@@ -54,5 +55,10 @@ class User extends Authenticatable
     public function pilots()
     {
         return $this->belongsToMany(Pilot::class);
+    }
+
+    public function startups()
+    {
+        return $this->belongsToMany(Startup::class);
     }
 }
