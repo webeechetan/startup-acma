@@ -32,7 +32,7 @@
 
                         <div class="col-md-4 mb-4">
                             <label class="form-label fw-bold">Founded On</label>
-                            <div class="p-2 border rounded">{{ $startup->year_founded }}</div>
+                            <div class="p-2 border rounded">{{ $startup->year }}</div>
                         </div>
                     </div>
 
@@ -91,25 +91,34 @@
                 </div>
 
                 <div>
-                    <h4 class="mb-3">Point of Contact (POC)</h4>
-                    <div class="row">
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label fw-bold">Name</label>
-                            <div class="p-2 border rounded">{{ $startup->poc_name }}</div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label fw-bold">Designation</label>
-                            <div class="p-2 border rounded">{{ $startup->poc_designation }}</div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label fw-bold">Email</label>
-                            <div class="p-2 border rounded">{{ $startup->poc_email }}</div>
-                        </div>
-                        <div class="col-md-3 mb-4">
-                            <label class="form-label fw-bold">Phone</label>
-                            <div class="p-2 border rounded">{{ $startup->poc_phone }}</div>
-                        </div>
-                    </div>
+                    <h4 class="mb-3">Points of Contact (POCs)</h4>
+                    @if($startup->pocs && count($startup->pocs) > 0)
+                        @foreach($startup->pocs as $index => $poc)
+                            <div class="border rounded p-3 mb-3">
+                                <h6 class="mb-3">{{ $index === 0 ? 'Primary POC' : 'Additional POC' }}</h6>
+                                <div class="row">
+                                    <div class="col-md-3 mb-4">
+                                        <label class="form-label fw-bold">Name</label>
+                                        <div class="p-2 border rounded">{{ $poc['name'] ?? 'N/A' }}</div>
+                                    </div>
+                                    <div class="col-md-3 mb-4">
+                                        <label class="form-label fw-bold">Designation</label>
+                                        <div class="p-2 border rounded">{{ $poc['designation'] ?? 'N/A' }}</div>
+                                    </div>
+                                    <div class="col-md-3 mb-4">
+                                        <label class="form-label fw-bold">Email</label>
+                                        <div class="p-2 border rounded">{{ $poc['email'] ?? 'N/A' }}</div>
+                                    </div>
+                                    <div class="col-md-3 mb-4">
+                                        <label class="form-label fw-bold">Phone</label>
+                                        <div class="p-2 border rounded">{{ $poc['phone'] ?? 'N/A' }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="p-2 border rounded text-muted">No POCs found</div>
+                    @endif
                 </div>
 
                 <div>

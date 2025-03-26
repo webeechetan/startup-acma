@@ -34,7 +34,7 @@
                         </td>
                         <td>{{ $startup->name }}</td>
                         <td>{{ $startup->type }}</td>
-                        <td>{{ $startup->poc_name }}</td>
+                        <td>{{ $startup->pocs[0]['name'] ?? 'N/A' }}</td>
                         <td>
                             <a href="{{ route('startups.show', $startup->id) }}" class="btn btn-link btn-sm">
                                 <i class="bx bx-show"></i>

@@ -31,8 +31,8 @@
                                         onclick="document.getElementById('logo').click()">Upload</button>
                                     <button type="button" class="btn btn-outline-secondary"
                                         onclick="clearFile('logo', 'logoPreview', '{{ asset('admin/assets/img/avatars/default-logo.png') }}')">Reset</button>
-                                    <small class="text-muted d-block">Allowed Formats: JPG, JPEG, PNG, WEBP | Max size of
-                                        5MB | Aspect Ratio: 1:1</small>
+                                    <small class="text-muted d-block">Allowed Formats: JPG, JPEG, PNG, WEBP | Maximum File
+                                        Size: 5MB | Aspect Ratio: 1:1</small>
                                     @error('logo')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -60,16 +60,11 @@
                         <div class="row">
                             <div class="col-md-4 mb-4">
                                 <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
-                                <x-admin.select 
-                                    id="country" 
-                                    name="country" 
-                                    :options="config('company_options.countries')" 
-                                    :selected="old('country', $startup->country)"
+                                <x-admin.select id="country" name="country" :options="config('company_options.countries')" :selected="old('country', $startup->country)"
                                     :config="[
                                         'placeholder' => 'Select Country',
                                         'required' => true,
-                                    ]" 
-                                />
+                                    ]" />
                                 @error('country')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
@@ -103,8 +98,7 @@
                             </div>
 
                             <div class="col-md-4 mb-4">
-                                <label for="address" class="form-label">Address <span
-                                        class="text-danger">*</span></label>
+                                <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
                                 <input type="text" id="address" name="address" class="form-control"
                                     placeholder="Enter Address" value="{{ old('address', $startup->address) }}" required>
                                 @error('address')
@@ -114,13 +108,13 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="year_founded" class="form-label">Founded On <span
+                            <label for="year" class="form-label">Founded On <span
                                     class="text-danger">*</span></label>
-                            <input type="text" id="year_founded" name="year_founded" class="form-control"
+                            <input type="text" id="year" name="year" class="form-control"
                                 placeholder="Enter Founding Year (YYYY)" pattern="^\d{4}$" maxlength="4"
-                                inputmode="numeric" value="{{ old('year_founded', $startup->year_founded) }}"
+                                inputmode="numeric" value="{{ old('year', $startup->year) }}"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
-                            @error('year_founded')
+                            @error('year')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -164,47 +158,64 @@
                     </div>
 
                     <div>
-                        <h4 class="mb-3">Point of Contact (POC)</h4>
-                        <div class="row">
-                            <div class="col-md-3 mb-4">
-                                <label for="poc_name" class="form-label">Name <span class="text-danger">*</span></label>
-                                <input type="text" id="poc_name" name="poc_name" class="form-control"
-                                    value="{{ old('poc_name', $startup->poc_name) }}" placeholder="Enter Full Name"
-                                    required>
-                                @error('poc_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-3 mb-4">
-                                <label for="poc_designation" class="form-label">Designation <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" id="poc_designation" name="poc_designation" class="form-control"
-                                    value="{{ old('poc_designation', $startup->poc_designation) }}"
-                                    placeholder="Enter Designation" required>
-                                @error('poc_designation')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-3 mb-4">
-                                <label for="poc_email" class="form-label">Email <span
-                                        class="text-danger">*</span></label>
-                                <input type="email" id="poc_email" name="poc_email" class="form-control"
-                                    value="{{ old('poc_email', $startup->poc_email) }}" placeholder="Enter Email"
-                                    required>
-                                @error('poc_email')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="col-md-3 mb-4">
-                                <label for="poc_phone" class="form-label">Phone <span
-                                        class="text-danger">*</span></label>
-                                <input type="text" id="poc_phone" name="poc_phone" class="form-control"
-                                    value="{{ old('poc_phone', $startup->poc_phone) }}" placeholder="Enter Phone Number"
-                                    required>
-                                @error('poc_phone')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                            </div>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0">Point of Contact (POC)</h4>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addNewPOC()">
+                                <i class="bx bx-plus"></i> Add POC
+                            </button>
+                        </div>
+                        
+                        <div id="poc-container">
+                            @foreach($startup->pocs as $index => $poc)
+                                <div class="poc-entry border rounded p-3 mb-3">
+                                    @if($index > 0)
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <h6 class="mb-0">Additional POC</h6>
+                                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removePOC(this)">
+                                                <i class="bx bx-trash"></i> Remove
+                                            </button>
+                                        </div>
+                                    @endif
+                                    <div class="row">
+                                        <div class="col-md-3 mb-3">
+                                            <label class="form-label">Name @if($index === 0)<span class="text-danger">*</span>@endif</label>
+                                            <input type="text" name="pocs[{{ $index }}][name]" class="form-control" 
+                                                value="{{ old('pocs.'.$index.'.name', $poc['name']) }}" 
+                                                placeholder="Enter Full Name" @if($index === 0) required @endif>
+                                            @error('pocs.'.$index.'.name')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label class="form-label">Designation @if($index === 0)<span class="text-danger">*</span>@endif</label>
+                                            <input type="text" name="pocs[{{ $index }}][designation]" class="form-control" 
+                                                value="{{ old('pocs.'.$index.'.designation', $poc['designation']) }}" 
+                                                placeholder="Enter Designation" @if($index === 0) required @endif>
+                                            @error('pocs.'.$index.'.designation')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label class="form-label">Email @if($index === 0)<span class="text-danger">*</span>@endif</label>
+                                            <input type="email" name="pocs[{{ $index }}][email]" class="form-control" 
+                                                value="{{ old('pocs.'.$index.'.email', $poc['email']) }}" 
+                                                placeholder="Enter Email" @if($index === 0) required @endif>
+                                            @error('pocs.'.$index.'.email')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-3 mb-3">
+                                            <label class="form-label">Phone @if($index === 0)<span class="text-danger">*</span>@endif</label>
+                                            <input type="text" name="pocs[{{ $index }}][phone]" class="form-control" 
+                                                value="{{ old('pocs.'.$index.'.phone', $poc['phone']) }}" 
+                                                placeholder="Enter Phone Number" @if($index === 0) required @endif>
+                                            @error('pocs.'.$index.'.phone')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
 
@@ -280,7 +291,7 @@
                             @endif
                             <input type="file" id="collaterals" name="collaterals[]" class="form-control" multiple
                                 accept="image/*,application/pdf,.doc,.docx" onchange="handleCollaterals(this)">
-                            <small class="text-muted">Allowed Formats: Images, PDFs, DOCs</small>
+                            <small class="text-muted">Allowed Formats: Images, PDFs, DOCs | Maximum File Size: 10MB per file</small>
                             <div id="collateralDetails" class="mt-2"></div>
                             @error('collaterals.*')
                                 <div class="text-danger">{{ $message }}</div>
@@ -366,6 +377,50 @@
                 // Remove the element from DOM
                 const existingCollateralsDiv = document.getElementById('existingCollaterals');
                 existingCollateralsDiv.children[index].remove();
+            }
+
+            let pocCount = {{ count($startup->pocs) - 1 }}; // Initialize counter with existing POCs
+
+            function addNewPOC() {
+                pocCount++;
+                const template = `
+                    <div class="poc-entry border rounded p-3 mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <h6 class="mb-0">Additional POC</h6>
+                            <button type="button" class="btn btn-outline-danger btn-sm" onclick="removePOC(this)">
+                                <i class="bx bx-trash"></i> Remove
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" name="pocs[${pocCount}][name]" class="form-control" 
+                                    placeholder="Enter Full Name">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Designation</label>
+                                <input type="text" name="pocs[${pocCount}][designation]" class="form-control" 
+                                    placeholder="Enter Designation">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="pocs[${pocCount}][email]" class="form-control" 
+                                    placeholder="Enter Email">
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="text" name="pocs[${pocCount}][phone]" class="form-control" 
+                                    placeholder="Enter Phone Number">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.getElementById('poc-container').insertAdjacentHTML('beforeend', template);
+            }
+
+            function removePOC(button) {
+                button.closest('.poc-entry').remove();
             }
         </script>
     @endpush

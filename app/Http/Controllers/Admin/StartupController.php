@@ -46,15 +46,20 @@ class StartupController extends Controller
             'city' => 'required|string|max:255',
             'pincode' => 'required|string|max:20',
             'address' => 'required|string',
-            'year_founded' => 'required|numeric|digits:4',
+            'year' => 'required|numeric|digits:4',
             'type' => 'required|string',
             'industry' => 'required|string',
             'size' => 'required|string',
             'revenue' => 'required|string',
-            'poc_name' => 'required|string|max:255',
-            'poc_designation' => 'required|string|max:255',
-            'poc_email' => 'required|email|max:255',
-            'poc_phone' => 'required|string|max:20',
+            'pocs' => 'required|array|min:1',
+            'pocs.0.name' => 'required|string|max:255',
+            'pocs.0.designation' => 'required|string|max:255',
+            'pocs.0.email' => 'required|email|max:255',
+            'pocs.0.phone' => 'required|string|max:20',
+            'pocs.*.name' => 'nullable|string|max:255',
+            'pocs.*.designation' => 'nullable|string|max:255',
+            'pocs.*.email' => 'nullable|email|max:255',
+            'pocs.*.phone' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',
             'linkedin' => 'nullable|url|max:255',
             'facebook' => 'nullable|url|max:255',
@@ -90,6 +95,11 @@ class StartupController extends Controller
                 }
             }
 
+            // Filter out empty POCs
+            $pocs = array_filter($request->pocs, function ($poc) {
+                return !empty($poc['name']);
+            });
+
             $startup = Startup::create([
                 'name' => $request->name,
                 'bio' => $request->bio,
@@ -98,15 +108,12 @@ class StartupController extends Controller
                 'city' => $request->city,
                 'pincode' => $request->pincode,
                 'address' => $request->address,
-                'year_founded' => $request->year_founded,
+                'year' => $request->year,
                 'type' => $request->type,
                 'industry' => $request->industry,
                 'size' => $request->size,
                 'revenue' => $request->revenue,
-                'poc_name' => $request->poc_name,
-                'poc_designation' => $request->poc_designation,
-                'poc_email' => $request->poc_email,
-                'poc_phone' => $request->poc_phone,
+                'pocs' => array_values($pocs),
                 'website' => $request->website,
                 'linkedin' => $request->linkedin,
                 'facebook' => $request->facebook,
@@ -167,15 +174,20 @@ class StartupController extends Controller
             'city' => 'required|string|max:255',
             'pincode' => 'required|string|max:20',
             'address' => 'required|string',
-            'year_founded' => 'required|numeric|digits:4',
+            'year' => 'required|numeric|digits:4',
             'type' => 'required|string',
             'industry' => 'required|string',
             'size' => 'required|string',
             'revenue' => 'required|string',
-            'poc_name' => 'required|string|max:255',
-            'poc_designation' => 'required|string|max:255',
-            'poc_email' => 'required|email|max:255',
-            'poc_phone' => 'required|string|max:20',
+            'pocs' => 'required|array|min:1',
+            'pocs.0.name' => 'required|string|max:255',
+            'pocs.0.designation' => 'required|string|max:255',
+            'pocs.0.email' => 'required|email|max:255',
+            'pocs.0.phone' => 'required|string|max:20',
+            'pocs.*.name' => 'nullable|string|max:255',
+            'pocs.*.designation' => 'nullable|string|max:255',
+            'pocs.*.email' => 'nullable|email|max:255',
+            'pocs.*.phone' => 'nullable|string|max:20',
             'website' => 'nullable|url|max:255',
             'linkedin' => 'nullable|url|max:255',
             'facebook' => 'nullable|url|max:255',
@@ -229,6 +241,11 @@ class StartupController extends Controller
                 }
             }
 
+            // Filter out empty POCs
+            $pocs = array_filter($request->pocs, function ($poc) {
+                return !empty($poc['name']);
+            });
+
             $startup->update([
                 'name' => $request->name,
                 'bio' => $request->bio,
@@ -237,15 +254,12 @@ class StartupController extends Controller
                 'city' => $request->city,
                 'pincode' => $request->pincode,
                 'address' => $request->address,
-                'year_founded' => $request->year_founded,
+                'year' => $request->year,
                 'type' => $request->type,
                 'industry' => $request->industry,
                 'size' => $request->size,
                 'revenue' => $request->revenue,
-                'poc_name' => $request->poc_name,
-                'poc_designation' => $request->poc_designation,
-                'poc_email' => $request->poc_email,
-                'poc_phone' => $request->poc_phone,
+                'pocs' => array_values($pocs),
                 'website' => $request->website,
                 'linkedin' => $request->linkedin,
                 'facebook' => $request->facebook,

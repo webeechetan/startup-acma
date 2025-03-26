@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Season;
+use App\Models\Pilot;
 
 class Startup extends Model
 {
@@ -21,15 +22,12 @@ class Startup extends Model
         'city',
         'pincode',
         'address',
-        'year_founded',
+        'year',
         'type',
         'industry',
         'size',
         'revenue',
-        'poc_name',
-        'poc_designation',
-        'poc_email',
-        'poc_phone',
+        'pocs',
         'website',
         'linkedin',
         'facebook',
@@ -39,7 +37,8 @@ class Startup extends Model
     ];
 
     protected $casts = [
-        'collaterals' => 'array'
+        'collaterals' => 'array',
+        'pocs' => 'array'
     ];
 
     public function users()
@@ -52,4 +51,8 @@ class Startup extends Model
         return $this->belongsToMany(Season::class);
     }
 
+    public function pilots()
+    {
+        return $this->belongsToMany(Pilot::class);
+    }
 }

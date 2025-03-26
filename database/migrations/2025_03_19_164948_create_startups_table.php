@@ -24,11 +24,8 @@ return new class extends Migration {
             $table->string('city');
             $table->string('pincode');
             $table->string('address');
-            $table->year('year_founded');
-            $table->string('poc_name');
-            $table->string('poc_designation');
-            $table->string('poc_email');
-            $table->string('poc_phone');
+            $table->year('year');
+            $table->json('pocs');
             $table->string('website')->nullable();
             $table->string('linkedin')->nullable();
             $table->string('facebook')->nullable();
