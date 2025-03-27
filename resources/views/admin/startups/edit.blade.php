@@ -50,8 +50,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="bio" class="form-label">Bio <span class="text-danger">*</span></label>
-                            <textarea id="bio" name="bio" class="form-control" rows="8" placeholder="Enter Company Bio" required>{{ old('bio', $startup->bio) }}</textarea>
+                            <x-admin.editor name="bio" label="Bio" :value="old('bio', $startup->bio)" :required="true" />
                             @error('bio')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
