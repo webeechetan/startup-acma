@@ -4,15 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 use App\Models\Pilot;
 use App\Models\Startup;
-use App\Models\User;
-
+use App\Models\CaseStudy;
 class Season extends Model
 {
     use HasFactory;
-
-    protected $table = 'seasons';
 
     protected $fillable = [
         'name',
@@ -34,6 +32,11 @@ class Season extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function caseStudies()
+    {
+        return $this->belongsToMany(CaseStudy::class);
     }
 
     public static function getActiveSeason()

@@ -1,4 +1,4 @@
-@props(['name', 'value' => '', 'label' => '', 'required' => false])
+@props(['name', 'value' => '', 'label' => '', 'required' => false, 'placeholder' => 'Write something...'])
 
 {{-- Load CKEditor scripts only once --}}
 @once
@@ -45,8 +45,8 @@
             basicEntities: true,
             entities: true,
             removeDialogTabs: 'link:advanced;link:target',
-            contentsClass: 'rounded',
             versionCheck: false,
+            editorplaceholder: '{{ $placeholder }}',
         });
     });
 </script>
