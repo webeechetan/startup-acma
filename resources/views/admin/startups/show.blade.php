@@ -20,7 +20,7 @@
                     <div class="mb-4">
                         <label class="form-label fw-bold">Logo</label>
                         <div class="d-flex align-items-center gap-3">
-                            <img src="{{ $startup->logo ? asset('storage/' . $startup->logo) : asset('admin/assets/img/avatars/default-logo.png') }}"
+                            <img src="{{ $startup->logo ? asset('storage/' . $startup->logo) : asset('admin/assets/img/avatars/default-image.png') }}"
                                 class="rounded border" style="width: 100px; height: 100px;">
                         </div>
                     </div>

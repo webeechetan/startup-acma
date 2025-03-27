@@ -22,7 +22,7 @@
                             <label class="form-label">Logo <span class="text-danger">*</span></label>
                             <div class="d-flex align-items-center gap-3">
                                 <img id="logoPreview"
-                                    src="{{ old('logo', $startup->logo) ? asset('storage/' . old('logo', $startup->logo)) : asset('admin/assets/img/avatars/default-logo.png') }}"
+                                    src="{{ old('logo', $startup->logo) ? asset('storage/' . old('logo', $startup->logo)) : asset('admin/assets/img/avatars/default-image.png') }}"
                                     class="rounded border" style="width: 100px; height: 100px;">
                                 <div>
                                     <input type="file" id="logo" name="logo" hidden accept="image/*"
@@ -30,7 +30,7 @@
                                     <button type="button" class="btn btn-primary"
                                         onclick="document.getElementById('logo').click()">Upload</button>
                                     <button type="button" class="btn btn-outline-secondary"
-                                        onclick="clearFile('logo', 'logoPreview', '{{ asset('admin/assets/img/avatars/default-logo.png') }}')">Reset</button>
+                                        onclick="clearFile('logo', 'logoPreview', '{{ asset('admin/assets/img/avatars/default-image.png') }}')">Reset</button>
                                     <small class="text-muted d-block">Allowed Formats: JPG, JPEG, PNG, WEBP | Maximum File
                                         Size: 5MB | Aspect Ratio: 1:1</small>
                                     @error('logo')
