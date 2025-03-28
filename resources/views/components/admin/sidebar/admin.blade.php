@@ -94,7 +94,12 @@
             <menu class="menu-sub">
                 <li class="menu-item">
                     <a href="/admin/startups" class="menu-link">
-                        <div data-i18n="Without navbar">View All Startups</div>
+                        <div data-i18n="Without navbar">View All Companies</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/admin/startups/create" class="menu-link">
+                        <div data-i18n="Without navbar">Add Company</div>
                     </a>
                 </li>
             </menu>
@@ -155,6 +160,26 @@
                 <li class="menu-item">
                     <a href="/admin/events/create" class="menu-link">
                         <div data-i18n="Without menu">Add Event</div>
+                    </a>
+                </li>
+            </menu>
+        </li>
+
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-message"></i>
+                <div data-i18n="Layouts">Contacts</div>
+            </a>
+
+            <menu class="menu-sub">
+                <li class="menu-item">
+                    <a href="/admin/contacts" class="menu-link">
+                        <div data-i18n="Without navbar">View All Contacts</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="/admin/contacts/create" class="menu-link">
+                        <div data-i18n="Without menu">Add Contact</div>
                     </a>
                 </li>
             </menu>
