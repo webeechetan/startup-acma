@@ -13,7 +13,7 @@
 
     <menu class="menu-inner py-3">
         <li class="menu-item active">
-            <a href="/admin/dashboard" class="menu-link">
+            <a href="{{ route('admin.dashboard') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-dashboard"></i>
                 <div data-i18n="Analytics">Dashboard</div>
             </a>
@@ -27,12 +27,12 @@
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/seasons" class="menu-link">
+                    <a href="{{ route('seasons.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">View All Seasons</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/seasons/create" class="menu-link">
+                    <a href="{{ route('seasons.create') }}" class="menu-link">
                         <div data-i18n="Without menu">Add Season</div>
                     </a>
                 </li>
@@ -47,12 +47,12 @@
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/pilots" class="menu-link">
+                    <a href="{{ route('pilots.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">View All Companies</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/pilots/create" class="menu-link">
+                    <a href="{{ route('pilots.create') }}" class="menu-link">
                         <div data-i18n="Without menu">Add Company</div>
                     </a>
                 </li>
@@ -60,25 +60,25 @@
                 <hr class="mx-4">
 
                 <li class="menu-item">
-                    <a href="/admin/pilots/users" class="menu-link">
+                    <a href="{{ route('pilots.users.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">View All Users</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/pilots/users/create" class="menu-link">
+                    <a href="{{ route('pilots.users.create') }}" class="menu-link">
                         <div data-i18n="Without menu">Add User</div>
                     </a>
                 </li>
-                
+
                 <hr class="mx-4">
 
                 <li class="menu-item">
-                    <a href="/admin/pilots/categories" class="menu-link">
+                    <a href="{{ route('pilots.categories.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">View All Categories</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/pilots/categories/create" class="menu-link">
+                    <a href="{{ route('pilots.categories.create') }}" class="menu-link">
                         <div data-i18n="Without menu">Add Category</div>
                     </a>
                 </li>
@@ -93,12 +93,12 @@
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/startups" class="menu-link">
+                    <a href="{{ route('startups.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">View All Companies</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/startups/create" class="menu-link">
+                    <a href="{{ route('startups.create') }}" class="menu-link">
                         <div data-i18n="Without navbar">Add Company</div>
                     </a>
                 </li>
@@ -113,12 +113,12 @@
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/case-studies" class="menu-link">
+                    <a href="{{ route('case-studies.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">View All Case Studies</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/case-studies/create" class="menu-link">
+                    <a href="{{ route('case-studies.create') }}" class="menu-link">
                         <div data-i18n="Without menu">Add Case Study</div>
                     </a>
                 </li>
@@ -128,18 +128,18 @@
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bxs-report"></i>
-                <div data-i18n="Layouts">Workshops</div>
+                <div data-i18n="Layouts">Knowledge Sharings</div>
             </a>
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/knowledge-sharing" class="menu-link">
-                        <div data-i18n="Without navbar">View All Workshops</div>
+                    <a href="{{ route('knowledge-sharings.index') }}" class="menu-link">
+                        <div data-i18n="Without navbar">View All Knowledge Sharings</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/knowledge-sharing/create" class="menu-link">
-                        <div data-i18n="Without menu">Add Workshop</div>
+                    <a href="{{ route('knowledge-sharings.create') }}" class="menu-link">
+                        <div data-i18n="Without menu">Add Knowledge Sharing</div>
                     </a>
                 </li>
             </menu>
@@ -153,12 +153,12 @@
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/events" class="menu-link">
+                    <a href="#" class="menu-link">
                         <div data-i18n="Without navbar">View All Events</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/events/create" class="menu-link">
+                    <a href="#" class="menu-link">
                         <div data-i18n="Without menu">Add Event</div>
                     </a>
                 </li>
@@ -173,12 +173,12 @@
 
             <menu class="menu-sub">
                 <li class="menu-item">
-                    <a href="/admin/contacts" class="menu-link">
+                    <a href="#" class="menu-link">
                         <div data-i18n="Without navbar">View All Contacts</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="/admin/contacts/create" class="menu-link">
+                    <a href="#" class="menu-link">
                         <div data-i18n="Without menu">Add Contact</div>
                     </a>
                 </li>

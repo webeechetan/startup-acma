@@ -23,7 +23,7 @@
                         <td>
                             @if ($caseStudy->thumbnail)
                                 <img src="{{ asset('storage/' . $caseStudy->thumbnail) }}" alt="{{ $caseStudy->title }}"
-                                    class="rounded" style="width: 100px; height: 60px; object-fit: cover;">
+                                    class="rounded" style="max-width: 50px; height: auto;">
                             @else
                                 <span class="text-muted">No Thumbnail</span>
                             @endif
