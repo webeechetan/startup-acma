@@ -272,26 +272,21 @@
                         <h4 class="mb-3">Marketing Collaterals</h4>
                         <div class="mb-4">
                             <label class="form-label">Collaterals</label>
-                            @if ($startup->collaterals)
-                                <div class="mb-2">
-                                    <div id="existingCollaterals">
-                                        @foreach ($startup->collaterals as $index => $collateral)
-                                            <div
-                                                class="d-flex justify-content-between align-items-center border p-2 rounded mb-2">
-                                                <span>{{ basename($collateral) }}</span>
-                                                <button type="button" class="btn-close"
-                                                    onclick="removeCollateral({{ $index }})"></button>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                    <input type="hidden" name="existing_collaterals"
-                                        value="{{ json_encode($startup->collaterals) }}" id="existing_collaterals">
-                                </div>
-                            @endif
                             <input type="file" id="collaterals" name="collaterals[]" class="form-control" multiple
                                 accept="image/*,application/pdf,.doc,.docx" onchange="handleCollaterals(this)">
                             <small class="text-muted">Allowed Formats: Images, PDFs, DOCs | Maximum File Size: 10MB per file</small>
-                            <div id="collateralDetails" class="mt-2"></div>
+                            <div id="collateralDetails" class="mt-2">
+                                @if($startup->collaterals)
+                                    @foreach($startup->collaterals as $index => $collateral)
+                                        <div class="d-flex justify-content-between align-items-center border p-2 rounded mb-2">
+                                            <span>{{ basename($collateral) }}</span>
+                                            <button type="button" class="btn-close" onclick="removeExistingFile({{ $index }})"></button>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                            <input type="hidden" name="existing_collaterals" id="existing_collaterals" 
+                                value="{{ json_encode($startup->collaterals) }}">
                             @error('collaterals.*')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -328,6 +323,7 @@
 
             // To store previously selected collaterals
             let collateralFiles = new DataTransfer();
+            let existingCollaterals = @json($startup->collaterals ?? []);
 
             // Handle collateral uploads while preserving previous files
             const handleCollaterals = (input) => {
@@ -341,13 +337,24 @@
                 const container = document.getElementById(containerId);
                 container.innerHTML = '';
 
+                // Show existing files
+                existingCollaterals.forEach((file, index) => {
+                    container.innerHTML += `
+                <div class="d-flex justify-content-between align-items-center border p-2 rounded mb-2">
+                    <span>${file.split('/').pop()}</span>
+                    <button type="button" class="btn-close" onclick="removeExistingFile(${index})"></button>
+                </div>
+                `;
+                });
+
+                // Show new files
                 Array.from(input.files).forEach((file, index) => {
                     container.innerHTML += `
                 <div class="d-flex justify-content-between align-items-center border p-2 rounded mb-2">
                     <span>${file.name}</span>
                     <button type="button" class="btn-close" onclick="removeFile(${index}, '${input.id}', '${containerId}')"></button>
                 </div>
-            `;
+                `;
                 });
             };
 
@@ -367,16 +374,12 @@
                 showFileNames(input, containerId);
             };
 
-            // Remove existing collateral
-            function removeCollateral(index) {
-                const existingCollaterals = JSON.parse(document.getElementById('existing_collaterals').value);
+            // Remove existing file
+            const removeExistingFile = (index) => {
                 existingCollaterals.splice(index, 1);
                 document.getElementById('existing_collaterals').value = JSON.stringify(existingCollaterals);
-
-                // Remove the element from DOM
-                const existingCollateralsDiv = document.getElementById('existingCollaterals');
-                existingCollateralsDiv.children[index].remove();
-            }
+                showFileNames(document.getElementById('collaterals'), 'collateralDetails');
+            };
 
             let pocCount = {{ count($startup->pocs) - 1 }}; // Initialize counter with existing POCs
 

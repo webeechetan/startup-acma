@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Pilot;
 use App\Models\Startup;
 use App\Models\CaseStudy;
+use App\Models\KnowledgeSharing;
+
 class Season extends Model
 {
     use HasFactory;
@@ -37,6 +39,11 @@ class Season extends Model
     public function caseStudies()
     {
         return $this->belongsToMany(CaseStudy::class);
+    }
+
+    public function knowledgeSharings()
+    {
+        return $this->belongsToMany(KnowledgeSharing::class);
     }
 
     public static function getActiveSeason()

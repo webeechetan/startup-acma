@@ -46,9 +46,11 @@ class PilotCategoryController extends Controller
 
             $category->pilots()->sync($request->pilot_id);
 
-            return redirect()->route('pilots.categories.index')->with('success', 'Category added successfully.');
+            $this->alert('Category added successfully.', 'success');
+            return redirect()->route('pilot-categories.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to add category.');
+            $this->alert('Failed to add category.', 'error');
+            return back();
         }
     }
 
@@ -89,19 +91,26 @@ class PilotCategoryController extends Controller
 
             $category->pilots()->sync($request->pilot_id);
 
-            return redirect()->route('pilots.categories.index')->with('success', 'Category updated successfully.');
+            $this->alert('Category updated successfully.', 'success');
+            return redirect()->route('pilot-categories.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update category.');
+            $this->alert('Failed to update category.', 'error');
+            return back();
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-        return redirect()->route('pilots.categories.index')->with('success', 'Category deleted successfully.');
+        try {
+            $category->delete();
+            $this->alert('Category deleted successfully.', 'success');
+            return redirect()->route('pilot-categories.index');
+        } catch (\Exception $e) {
+            $this->alert('Failed to delete category.', 'error');
+            return back();
+        }
     }
 }

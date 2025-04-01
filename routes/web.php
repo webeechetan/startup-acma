@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RedirectIfAuthenticated;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SeasonController;
@@ -9,9 +11,8 @@ use App\Http\Controllers\Admin\PilotCategoryController;
 use App\Http\Controllers\Admin\PilotUserController;
 use App\Http\Controllers\Admin\StartupController;
 use App\Http\Controllers\Admin\CaseStudyController;
-use App\Http\Middleware\RedirectIfAuthenticated;
-
-
+use App\Http\Controllers\Admin\KnowledgeSharingController;
+use App\Http\Controllers\Admin\ContactController;
 // Auth Routes
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware(RedirectIfAuthenticated::class);
@@ -33,6 +34,8 @@ Route::prefix('admin')->middleware('userType:admin')->group(function () {
         'pilots' => PilotController::class,
         'startups' => StartupController::class,
         'case-studies' => CaseStudyController::class,
+        'knowledge-sharings' => KnowledgeSharingController::class,
+        'contacts' => ContactController::class,
     ]);
 });
 
