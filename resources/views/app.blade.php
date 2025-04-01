@@ -14,6 +14,7 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" />
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
@@ -1525,6 +1526,25 @@
 <body>
     @yield('app.content')
     @stack('scripts')
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    @if(session()->has('alert'))
+        @php
+            $alert = Session::get('alert');
+            $msg = $alert['msg'];
+            $type = $alert['type'];
+        @endphp
+        <script>
+            Toastify({
+                text: "{{ $msg }}",
+                duration: 3000,
+                close: true,
+                gravity: "top",
+                position: 'right',
+                backgroundColor: "{{ $type == 'success' ? '#4CAF50' : '#F44336' }}",
+            }).showToast();
+        </script>
+    @endif
 </body>
 
 </html>

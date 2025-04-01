@@ -25,7 +25,8 @@ class PilotController extends Controller
      */
     public function create()
     {
-        $pilots = Pilot::pluck('name');
+        $pilots = Pilot::pluck('name')->toArray();
+        $pilots = array_combine($pilots, $pilots);
         return view('admin.pilots.create', compact('pilots'));
     }
 
@@ -47,18 +48,22 @@ class PilotController extends Controller
             }
 
             $pilotNames = array_map('trim', $request->pilot_names);
-
             foreach ($pilotNames as $name) {
                 if (!empty($name)) {
-                    $pilot = Pilot::firstOrCreate(['name' => $name]);
 
-                    $pilot->seasons()->syncWithoutDetaching([$activeSeason->id]);
-
-                    $users = $pilot->users()->where('is_active', true)->pluck('id')->toArray();
-
-                    if (!empty($users)) {
-                        $activeSeason->users()->syncWithoutDetaching($users);
+                    try{
+                        $pilot = Pilot::firstOrCreate(['name' => $name]);
+                        $pilot->seasons()->syncWithoutDetaching([$activeSeason->id]);
+    
+                        $users = $pilot->users()->where('is_active', true)->pluck('users.id')->toArray();
+    
+                        if (!empty($users)) {
+                            $activeSeason->users()->syncWithoutDetaching($users);
+                        }
+                    }catch (\Exception $e) {
+                        dd($e->getMessage());
                     }
+
                 }
             }
 

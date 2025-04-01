@@ -46,9 +46,12 @@ class SeasonController extends Controller
                 'is_active' => true,
             ]);
 
-            return redirect()->route('seasons.index')->with('success', 'Season added successfully.');
+            $this->alert('Season added successfully', 'success');
+
+            return redirect()->route('seasons.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to add season.');
+            $this->alert($e->getMessage(), 'error');
+            return back();
         }
     }
 
