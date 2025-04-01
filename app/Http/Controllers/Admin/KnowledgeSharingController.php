@@ -48,7 +48,8 @@ class KnowledgeSharingController extends Controller
 
         $activeSeason = Season::getActiveSeason();
         if (!$activeSeason) {
-            return back()->with('error', 'No active season found.');
+            $this->alert('No active season found.', 'error');
+            return back();
         }
 
         try {
@@ -84,8 +85,8 @@ class KnowledgeSharingController extends Controller
 
             $knowledgeSharing->seasons()->attach($activeSeason->id);
 
-            return redirect()->route('knowledge-sharings.index')
-                ->with('success', 'Knowledge sharing created successfully.');
+            $this->alert('Knowledge sharing created successfully.', 'success');
+            return redirect()->route('knowledge-sharings.index');
         } catch (\Exception $e) {
             // Clean up uploaded files if there's an error
             if (isset($thumbnailPath) && Storage::disk('public')->exists($thumbnailPath)) {
@@ -98,7 +99,8 @@ class KnowledgeSharingController extends Controller
                     }
                 }
             }
-            return back()->with('error', 'Failed to create knowledge sharing.');
+            $this->alert('Failed to create knowledge sharing.', 'error');
+            return back();
         }
     }
 
@@ -185,10 +187,11 @@ class KnowledgeSharingController extends Controller
                 'collaterals' => $collateralPaths
             ]);
 
-            return redirect()->route('knowledge-sharings.index')
-                ->with('success', 'Knowledge sharing updated successfully.');
+            $this->alert('Knowledge sharing updated successfully.', 'success');
+            return redirect()->route('knowledge-sharings.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update knowledge sharing.');
+            $this->alert('Failed to update knowledge sharing.', 'error');
+            return back();
         }
     }
 
@@ -197,13 +200,18 @@ class KnowledgeSharingController extends Controller
      */
     public function destroy(KnowledgeSharing $knowledgeSharing)
     {
-        if ($knowledgeSharing->thumbnail) {
-            Storage::disk('public')->delete($knowledgeSharing->thumbnail);
+        try {
+            if ($knowledgeSharing->thumbnail) {
+                Storage::disk('public')->delete($knowledgeSharing->thumbnail);
+            }
+
+            $knowledgeSharing->delete();
+
+            $this->alert('Knowledge sharing deleted successfully.', 'success');
+            return redirect()->route('knowledge-sharings.index');
+        } catch (\Exception $e) {
+            $this->alert('Failed to delete knowledge sharing.', 'error');
+            return back();
         }
-
-        $knowledgeSharing->delete();
-
-        return redirect()->route('knowledge-sharings.index')
-            ->with('success', 'Knowledge sharing deleted successfully.');
     }
 }

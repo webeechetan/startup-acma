@@ -37,7 +37,8 @@ class CaseStudyController extends Controller
 
         $activeSeason = Season::getActiveSeason();
         if (!$activeSeason) {
-            return back()->with('error', 'No active season found.');
+            $this->alert('No active season found.', 'error');
+            return back();
         }
 
         try {
@@ -61,18 +62,18 @@ class CaseStudyController extends Controller
 
             $caseStudy->seasons()->attach($activeSeason->id);
 
-            return redirect()->route('case-studies.index')
-                ->with('success', 'Case study created successfully.');
+            $this->alert('Case study created successfully', 'success');
+            return redirect()->route('case-studies.index');
         } catch (\Exception $e) {
             // Clean up uploaded file if there's an error
             if (isset($thumbnailPath) && Storage::disk('public')->exists($thumbnailPath)) {
                 Storage::disk('public')->delete($thumbnailPath);
             }
 
-            return back()->with('error', 'Failed to create case study.');
+            $this->alert('Failed to add case study.', 'error');
+            return back();
         }
     }
-
 
     public function show(CaseStudy $caseStudy)
     {
@@ -117,22 +118,28 @@ class CaseStudyController extends Controller
                 'description' => $request->description
             ]);
 
-            return redirect()->route('case-studies.index')
-                ->with('success', 'Case study updated successfully.');
+            $this->alert('Case study updated successfully', 'success');
+            return redirect()->route('case-studies.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update case study.');
+            $this->alert('Failed to update case study.', 'error');
+            return back();
         }
     }
 
     public function destroy(CaseStudy $caseStudy)
     {
-        if ($caseStudy->thumbnail) {
-            Storage::disk('public')->delete($caseStudy->thumbnail);
+        try {
+            if ($caseStudy->thumbnail) {
+                Storage::disk('public')->delete($caseStudy->thumbnail);
+            }
+
+            $caseStudy->delete();
+
+            $this->alert('Case study deleted successfully', 'success');
+            return redirect()->route('case-studies.index');
+        } catch (\Exception $e) {
+            $this->alert('Failed to delete case study.', 'error');
+            return back();
         }
-
-        $caseStudy->delete();
-
-        return redirect()->route('case-studies.index')
-            ->with('success', 'Case study deleted successfully.');
     }
 }
