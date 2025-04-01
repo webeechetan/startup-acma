@@ -20,7 +20,7 @@
                     <div class="mb-4">
                         <label class="form-label fw-bold">Logo</label>
                         <div class="d-flex align-items-center gap-3">
-                            <img src="{{ $startup->logo ? asset('storage/' . $startup->logo) : asset('admin/assets/img/avatars/default-logo.png') }}"
+                            <img src="{{ $startup->logo ? asset('storage/' . $startup->logo) : asset('admin/assets/img/avatars/default-image.png') }}"
                                 class="rounded border" style="width: 100px; height: 100px;">
                         </div>
                     </div>
@@ -38,7 +38,7 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold">Bio</label>
-                        <div class="p-2 border rounded">{{ $startup->bio }}</div>
+                        <div class="p-2 border rounded"> {!! $startup->bio !!}</div>
                     </div>
 
                     <div class="row">
@@ -92,8 +92,8 @@
 
                 <div>
                     <h4 class="mb-3">Points of Contact (POCs)</h4>
-                    @if($startup->pocs && count($startup->pocs) > 0)
-                        @foreach($startup->pocs as $index => $poc)
+                    @if ($startup->pocs && count($startup->pocs) > 0)
+                        @foreach ($startup->pocs as $index => $poc)
                             <div class="border rounded p-3 mb-3">
                                 <h6 class="mb-3">{{ $index === 0 ? 'Primary POC' : 'Additional POC' }}</h6>
                                 <div class="row">

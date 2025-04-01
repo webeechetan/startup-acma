@@ -20,7 +20,7 @@
                             <label class="form-label">Logo <span class="text-danger">*</span></label>
                             <div class="d-flex align-items-center gap-3">
                                 <img id="logoPreview"
-                                    src="{{ old('logo') ? asset('storage/' . old('logo')) : asset('admin/assets/img/avatars/default-logo.png') }}"
+                                    src="{{ old('logo') ? asset('storage/' . old('logo')) : asset('admin/assets/img/avatars/default-image.png') }}"
                                     class="rounded border" style="width: 100px; height: 100px;">
                                 <div>
                                     <input type="file" id="logo" name="logo" hidden accept="image/*"
@@ -28,7 +28,7 @@
                                     <button type="button" class="btn btn-primary"
                                         onclick="document.getElementById('logo').click()">Upload</button>
                                     <button type="button" class="btn btn-outline-secondary"
-                                        onclick="clearFile('logo', 'logoPreview', '{{ asset('assets/img/avatars/default-logo.png') }}')">Reset</button>
+                                        onclick="clearFile('logo', 'logoPreview', '{{ asset('assets/img/avatars/default-image.png') }}')">Reset</button>
                                     <small class="text-muted d-block">Allowed Formats: JPG, JPEG, PNG, WEBP | Maximum File
                                         Size: 5MB | Aspect Ratio: 1:1</small>
                                     @error('logo')
@@ -48,11 +48,7 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="bio" class="form-label">Bio <span class="text-danger">*</span></label>
-                            <textarea id="bio" name="bio" class="form-control" rows="8" placeholder="Enter Company Bio" required>{{ old('bio') }}</textarea>
-                            @error('bio')
-                                <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                            <x-admin.editor name="bio" label="Bio" :value="old('bio')" :required="true" />
                         </div>
 
                         <div class="row">
@@ -146,15 +142,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <label for="revenue" class="form-label">Annual Revenue <span class="text-danger">*</span></label>
-                            <x-admin.select 
-                                id="revenue" 
-                                name="revenue" 
-                                :options="config('company_options.revenue')" 
-                                :selected="old('revenue')"
-                                :config="['placeholder' => 'Select Annual Revenue', 'required' => true]" 
-                            />
-                            <small class="text-muted d-block mt-1">Select revenue range in Indian Rupees (Cr.) or USD equivalent</small>
+                            <label for="revenue" class="form-label">Annual Revenue <span
+                                    class="text-danger">*</span></label>
+                            <x-admin.select id="revenue" name="revenue" :options="config('company_options.revenue')" :selected="old('revenue')"
+                                :config="['placeholder' => 'Select Annual Revenue', 'required' => true]" />
+                            <small class="text-muted d-block mt-1">Select revenue range in Indian Rupees (Cr.) or USD
+                                equivalent</small>
                             @error('revenue')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
@@ -168,14 +161,14 @@
                                 <i class="bx bx-plus"></i> Add POC
                             </button>
                         </div>
-                        
+
                         <div id="poc-container">
                             <!-- First POC (Mandatory) -->
                             <div class="poc-entry border rounded p-3 mb-3">
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Name <span class="text-danger">*</span></label>
-                                        <input type="text" name="pocs[0][name]" class="form-control" 
+                                        <input type="text" name="pocs[0][name]" class="form-control"
                                             value="{{ old('pocs.0.name') }}" placeholder="Enter Full Name" required>
                                         @error('pocs.0.name')
                                             <div class="text-danger">{{ $message }}</div>
@@ -183,15 +176,16 @@
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Designation <span class="text-danger">*</span></label>
-                                        <input type="text" name="pocs[0][designation]" class="form-control" 
-                                            value="{{ old('pocs.0.designation') }}" placeholder="Enter Designation" required>
+                                        <input type="text" name="pocs[0][designation]" class="form-control"
+                                            value="{{ old('pocs.0.designation') }}" placeholder="Enter Designation"
+                                            required>
                                         @error('pocs.0.designation')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Email <span class="text-danger">*</span></label>
-                                        <input type="email" name="pocs[0][email]" class="form-control" 
+                                        <input type="email" name="pocs[0][email]" class="form-control"
                                             value="{{ old('pocs.0.email') }}" placeholder="Enter Email" required>
                                         @error('pocs.0.email')
                                             <div class="text-danger">{{ $message }}</div>
@@ -199,7 +193,7 @@
                                     </div>
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Phone <span class="text-danger">*</span></label>
-                                        <input type="text" name="pocs[0][phone]" class="form-control" 
+                                        <input type="text" name="pocs[0][phone]" class="form-control"
                                             value="{{ old('pocs.0.phone') }}" placeholder="Enter Phone Number" required>
                                         @error('pocs.0.phone')
                                             <div class="text-danger">{{ $message }}</div>
@@ -379,7 +373,7 @@
                     </div>
                 </div>
             `;
-            
+
             document.getElementById('poc-container').insertAdjacentHTML('beforeend', template);
         }
 
