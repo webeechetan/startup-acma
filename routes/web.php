@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\StartupController;
 use App\Http\Controllers\Admin\CaseStudyController;
 use App\Http\Controllers\Admin\KnowledgeSharingController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\EventController;
+
 // Auth Routes
 Route::prefix('auth')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware(RedirectIfAuthenticated::class);
@@ -36,6 +38,7 @@ Route::prefix('admin')->middleware('userType:admin')->group(function () {
         'case-studies' => CaseStudyController::class,
         'knowledge-sharings' => KnowledgeSharingController::class,
         'contacts' => ContactController::class,
+        'events' => EventController::class,
     ]);
 });
 

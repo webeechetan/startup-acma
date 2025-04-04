@@ -145,20 +145,20 @@
             </menu>
         </li>
 
-        <li class="menu-item">
+        <li class="menu-item {{ active('events*', 'active open') }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-calendar-event"></i>
                 <div data-i18n="Layouts">Events</div>
             </a>
 
             <menu class="menu-sub">
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ active('events.index', 'active') }}">
+                    <a href="{{ route('events.index') }}" class="menu-link">
                         <div data-i18n="Without navbar">View All Events</div>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ active('events.create', 'active') }}">
+                    <a href="{{ route('events.create') }}" class="menu-link">
                         <div data-i18n="Without menu">Add Event</div>
                     </a>
                 </li>
