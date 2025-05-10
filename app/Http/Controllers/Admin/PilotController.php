@@ -40,36 +40,32 @@ class PilotController extends Controller
             'pilot_names.*' => 'string',
         ]);
 
+        $activeSeason = Season::getActiveSeason();
+        if (!$activeSeason) {
+            $this->alert('No active season found.', 'error');
+            return back();
+        }
+
         try {
-            $activeSeason = Season::getActiveSeason();
-
-            if (!$activeSeason) {
-                return back()->with('error', 'No active season found.');
-            }
-
             $pilotNames = array_map('trim', $request->pilot_names);
             foreach ($pilotNames as $name) {
                 if (!empty($name)) {
+                    $pilot = Pilot::firstOrCreate(['name' => $name]);
+                    $pilot->seasons()->syncWithoutDetaching([$activeSeason->id]);
 
-                    try{
-                        $pilot = Pilot::firstOrCreate(['name' => $name]);
-                        $pilot->seasons()->syncWithoutDetaching([$activeSeason->id]);
-    
-                        $users = $pilot->users()->where('is_active', true)->pluck('users.id')->toArray();
-    
-                        if (!empty($users)) {
-                            $activeSeason->users()->syncWithoutDetaching($users);
-                        }
-                    }catch (\Exception $e) {
-                        dd($e->getMessage());
+                    $users = $pilot->users()->where('is_active', true)->pluck('users.id')->toArray();
+
+                    if (!empty($users)) {
+                        $activeSeason->users()->syncWithoutDetaching($users);
                     }
-
                 }
             }
 
-            return redirect()->route('pilots.index')->with('success', 'Companies added successfully.');
+            $this->alert('Companies added successfully', 'success');
+            return redirect()->route('pilots.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to add companies.');
+            $this->alert('Failed to add pilot companies.', 'error');
+            return back();
         }
     }
 
@@ -104,9 +100,11 @@ class PilotController extends Controller
                 'name' => $request->name,
             ]);
 
-            return redirect()->route('pilots.index')->with('success', 'Pilot updated successfully.');
+            $this->alert('Pilot updated successfully', 'success');
+            return redirect()->route('pilots.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update pilot.');
+            $this->alert('Failed to update pilot.', 'error');
+            return back();
         }
     }
 
@@ -115,6 +113,13 @@ class PilotController extends Controller
      */
     public function destroy(Pilot $pilot)
     {
-        //
+        try {
+            $pilot->delete();
+            $this->alert('Pilot deleted successfully', 'success');
+            return redirect()->route('pilots.index');
+        } catch (\Exception $e) {
+            $this->alert('Failed to delete pilot.', 'error');
+            return back();
+        }
     }
 }

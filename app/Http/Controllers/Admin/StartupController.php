@@ -71,7 +71,8 @@ class StartupController extends Controller
 
         $activeSeason = Season::getActiveSeason();
         if (!$activeSeason) {
-            return back()->with('error', 'No active season found.');
+            $this->alert('No active season found.', 'error');
+            return back();
         }
 
         try {
@@ -140,7 +141,8 @@ class StartupController extends Controller
                 }
             }
 
-            return back()->with('error', 'Failed to create startup.');
+            $this->alert('Failed to add startup.', 'error');
+            return back();
         }
     }
 
@@ -269,9 +271,11 @@ class StartupController extends Controller
                 'collaterals' => $collateralPaths
             ]);
 
-            return redirect()->route('startups.index')->with('success', 'Startup updated successfully.');
+            $this->alert('Startup updated successfully', 'success');
+            return redirect()->route('startups.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update startup.');
+            $this->alert('Failed to update startup.', 'error');
+            return back();
         }
     }
 

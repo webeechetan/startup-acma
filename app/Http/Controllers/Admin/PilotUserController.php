@@ -43,13 +43,13 @@ class PilotUserController extends Controller
             'pilot_id' => 'required|exists:pilots,id',
         ]);
 
+        $activeSeason = Season::getActiveSeason();
+        if (!$activeSeason) {
+            $this->alert('No active season found.', 'error');
+            return back();
+        }
+
         try {
-            $activeSeason = Season::getActiveSeason();
-
-            if (!$activeSeason) {
-                return back()->with('error', 'No active season found.');
-            }
-
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -58,12 +58,13 @@ class PilotUserController extends Controller
             ]);
 
             $user->pilots()->sync([$request->pilot_id]);
-
             $activeSeason->users()->syncWithoutDetaching([$user->id]);
 
-            return redirect()->route('pilots.users.index')->with('success', 'User added successfully.');
+            $this->alert('User added successfully.', 'success');
+            return redirect()->route('pilot-users.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to add user.');
+            $this->alert('Failed to add user.', 'error');
+            return back();
         }
     }
 
@@ -107,9 +108,11 @@ class PilotUserController extends Controller
 
             $user->pilots()->sync([$request->pilot_id]);
 
-            return redirect()->route('pilots.users.index')->with('success', 'User updated successfully.');
+            $this->alert('User updated successfully.', 'success');
+            return redirect()->route('pilot-users.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update user.');
+            $this->alert('Failed to update user.', 'error');
+            return back();
         }
     }
 

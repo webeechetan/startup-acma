@@ -31,7 +31,7 @@ class SeasonController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:seasons,name',
+            'name' => 'required|string|unique:seasons,name',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
         ]);
@@ -47,14 +47,12 @@ class SeasonController extends Controller
             ]);
 
             $this->alert('Season added successfully', 'success');
-
             return redirect()->route('seasons.index');
         } catch (\Exception $e) {
-            $this->alert($e->getMessage(), 'error');
+            $this->alert('Failed to add season.', 'error');
             return back();
         }
     }
-
 
     /**
      * Display the specified resource.
@@ -78,10 +76,10 @@ class SeasonController extends Controller
     public function update(Request $request, Season $season)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:seasons,name,' . $season->id,
+            'name' => 'required|string|unique:seasons,name,' . $season->id,
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
-            'is_active' => 'nullable|string',
+            'is_active' => 'boolean',
         ]);
 
         try {
@@ -96,9 +94,11 @@ class SeasonController extends Controller
                 'is_active' => $request->has('is_active'),
             ]);
 
-            return redirect()->route('seasons.index')->with('success', 'Season updated successfully.');
+            $this->alert('Season updated successfully', 'success');
+            return redirect()->route('seasons.index');
         } catch (\Exception $e) {
-            return back()->with('error', 'Failed to update season.');
+            $this->alert('Failed to update season.', 'error');
+            return back();
         }
     }
 
